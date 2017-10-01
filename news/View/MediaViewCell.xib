@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MediaViewCell" rowHeight="110" id="buf-oH-dpO" customClass="MediaViewCell" customModule="news" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="buf-oH-dpO" id="Qir-47-U5Y">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="109.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPi-X3-wRa">
+                        <rect key="frame" x="8" y="40.5" width="55" height="28"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="03H-R5-BbE">
+                        <rect key="frame" x="318" y="39" width="51" height="31"/>
+                        <color key="onTintColor" red="0.15686274510000001" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </switch>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Включено" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byz-c8-7gS">
+                        <rect key="frame" x="8" y="71.5" width="64" height="16"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Byz-c8-7gS" firstAttribute="leading" secondItem="JPi-X3-wRa" secondAttribute="leading" id="Ybv-0e-o1U"/>
+                    <constraint firstItem="Byz-c8-7gS" firstAttribute="top" secondItem="JPi-X3-wRa" secondAttribute="bottom" constant="3" id="csQ-gm-gvJ"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="03H-R5-BbE" secondAttribute="trailing" id="jXL-Wy-646"/>
+                    <constraint firstItem="03H-R5-BbE" firstAttribute="centerY" secondItem="Qir-47-U5Y" secondAttribute="centerY" id="oU0-PE-sNB"/>
+                    <constraint firstItem="JPi-X3-wRa" firstAttribute="centerY" secondItem="03H-R5-BbE" secondAttribute="centerY" id="r2h-yu-Jji"/>
+                    <constraint firstItem="JPi-X3-wRa" firstAttribute="leading" secondItem="Qir-47-U5Y" secondAttribute="leadingMargin" id="vxc-BJ-1jS"/>
+                    <constraint firstItem="Byz-c8-7gS" firstAttribute="leading" secondItem="Qir-47-U5Y" secondAttribute="leadingMargin" id="wUC-Nm-JrM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="isOnLabel" destination="Byz-c8-7gS" id="s7x-f1-2du"/>
+                <outlet property="mediaNameLabel" destination="JPi-X3-wRa" id="kZv-kQ-ol0"/>
+                <outlet property="mediaSwitch" destination="03H-R5-BbE" id="bx9-ZQ-kIR"/>
+            </connections>
+            <point key="canvasLocation" x="95.5" y="-118"/>
+        </tableViewCell>
+    </objects>
+</document>
