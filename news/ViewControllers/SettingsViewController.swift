@@ -8,23 +8,35 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+fileprivate enum Constants {
+  static let kVCTitle = "СМИ"
+  static let kMediaCellName = "MediaViewCell"
+  static let kMediaCellNameIdentifier = "MediaViewCell"
+  static let kAboutUsName = "О нас"
+  static let kCellHeight: CGFloat = 70.0
+  static let kStoryboardIdentifier = "SettingsViewController"
+}
 
+class SettingsViewController: UIViewController, StoryboardInstantiable {
+  
+  var model: AnyObject!
+  typealias T = AnyObject
+
+
+  // Outlets
   @IBOutlet weak var tableView: UITableView!
-
-  let mediaCellName = "MediaViewCell"
-  let mediaCellNameIdentifier = "MediaViewCell"
-  var effect: UIVisualEffect!
-  var blurView: UIVisualEffectView!
   @IBOutlet var mediaInfoView: MediaInfoView!
-  var mediaInfoFrame: CGRect!
+  // Attributes
+  private var effect: UIVisualEffect!
+  private var blurView: UIVisualEffectView!
+  private var mediaInfoFrame: CGRect!
 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.tableView.delegate = self
     self.tableView.dataSource = self
-    self.tableView.register(UINib(nibName: self.mediaCellName, bundle: nil), forCellReuseIdentifier: self.mediaCellNameIdentifier)
-    self.title = "СМИ"
+    self.tableView.register(UINib(nibName: Constants.kMediaCellName, bundle: nil), forCellReuseIdentifier: Constants.kMediaCellNameIdentifier)
+    self.title = Constants.kVCTitle
     // Effect
     self.effect = UIBlurEffect(style: .dark)
     self.blurView = UIVisualEffectView(effect: nil)
@@ -34,7 +46,7 @@ class SettingsViewController: UIViewController {
     self.mediaInfoView.frame = self.mediaInfoFrame
     self.mediaInfoView.alpha = 0.0
     self.mediaInfoView.delegate = self
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "О нас", style: .plain, target: self, action: #selector(self.addMediaInfoView))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constants.kAboutUsName, style: .plain, target: self, action: #selector(self.addMediaInfoView))
   }
 
   @objc private func addMediaInfoView() {
@@ -48,17 +60,12 @@ class SettingsViewController: UIViewController {
     }
   }
 
-  override func willMove(toParentViewController parent: UIViewController?) {
-    super.willMove(toParentViewController: parent)
-    guard let vc = parent as? SettingsViewController else {
-      return
-    }
-  
-  }
 }
 
+
+
 extension SettingsViewController: MediaInfoViewDelegate {
-  
+
   func okButtonPressed(sender: MediaInfoView) {
     UIView.animate(withDuration: 0.2, animations: {
       self.mediaInfoView.alpha = 0
@@ -78,7 +85,7 @@ extension SettingsViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.mediaCellNameIdentifier, for: indexPath) as? MediaViewCell else {
+    guard let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.kMediaCellNameIdentifier, for: indexPath) as? MediaViewCell else {
       return UITableViewCell()
     }
     cell.mediaNameLabel.text = Parametizer.shared.mediaNames[indexPath.row]
@@ -90,18 +97,18 @@ extension SettingsViewController: UITableViewDataSource {
     return cell
   }
 
-  @objc private func infoButtonPressed(sender: UIButton) {
-    self.mediaInfoView.titleLabel.text = Parametizer.shared.mediaNames[sender.tag]
-    addMediaInfoView()
-  }
-
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 70.0
+    return Constants.kCellHeight
   }
 
 }
 
 extension SettingsViewController: UITableViewDelegate {
+
+  @objc private func infoButtonPressed(sender: UIButton) {
+    self.mediaInfoView.titleLabel.text = Parametizer.shared.mediaNames[sender.tag]
+    addMediaInfoView()
+  }
 
 }
 

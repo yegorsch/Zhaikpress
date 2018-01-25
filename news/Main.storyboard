@@ -124,7 +124,6 @@
                     <connections>
                         <outlet property="emptyView" destination="brP-HE-7Xf" id="7ki-yZ-ZBC"/>
                         <outlet property="tableView" destination="vfc-GA-D4D" id="Kep-tC-PJF"/>
-                        <segue destination="w7f-Hj-zfS" kind="show" identifier="showNewsDetail" id="X3B-3a-qw4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lCu-VC-aaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -172,7 +171,7 @@
         <!--Settings View Controller-->
         <scene sceneID="yZd-MJ-oji">
             <objects>
-                <viewController id="EVO-t3-Qwd" customClass="SettingsViewController" customModule="Zhaikpress" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EVO-t3-Qwd" customClass="SettingsViewController" customModule="Zhaikpress" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R6Y-Kq-6TX"/>
                         <viewControllerLayoutGuide type="bottom" id="HB3-le-7ht"/>
@@ -284,7 +283,7 @@ zhaikpress@gmail.com
         <!--News Detail View Controller-->
         <scene sceneID="FlC-mx-bqZ">
             <objects>
-                <viewController id="w7f-Hj-zfS" customClass="NewsDetailViewController" customModule="Zhaikpress" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="SettingsViewControllerID" storyboardIdentifier="NewsDetailViewController" id="w7f-Hj-zfS" customClass="NewsDetailViewController" customModule="Zhaikpress" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7uZ-Z3-dru"/>
                         <viewControllerLayoutGuide type="bottom" id="OQw-6N-qrC"/>
@@ -294,7 +293,7 @@ zhaikpress@gmail.com
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CtP-Sl-v9X" customClass="s">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="86i-jk-I88">
                                         <rect key="frame" x="6" y="4" width="308" height="232"/>
@@ -385,7 +384,7 @@ zhaikpress@gmail.com
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r1K-Rf-cgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1083.75" y="223.94366197183098"/>
+            <point key="canvasLocation" x="1459" y="143"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="27c-Ug-3JL">

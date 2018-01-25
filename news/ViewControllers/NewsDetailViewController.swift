@@ -8,7 +8,22 @@
 
 import UIKit
 
-class NewsDetailViewController: UIViewController {
+fileprivate enum Constants {
+static let kShareTitle = "Поделиться"
+}
+
+class NewsDetailViewController: UIViewController, StoryboardInstantiable {
+  internal var model: News! {
+    didSet{
+      self.news = model
+    }
+  }
+  private var news: News!
+
+  typealias T = News
+
+
+  private let kShareTitle = "Поделиться"
 
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var imageView: UIImageView!
@@ -18,7 +33,6 @@ class NewsDetailViewController: UIViewController {
   @IBOutlet weak var separatorView: UIView!
   @IBOutlet weak var infoStackView: UIStackView!
 
-  var news: News!
   override func viewDidLoad() {
     super.viewDidLoad()
     self.titleLabel.sizeToFit()
@@ -32,7 +46,7 @@ class NewsDetailViewController: UIViewController {
     } else {
       self.imageView.removeFromSuperview()
     }
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Поделиться", style: .plain, target: self, action: #selector(shareButtonPressed(sender:)))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: kShareTitle, style: .plain, target: self, action: #selector(shareButtonPressed(sender:)))
   }
 
   override func viewWillDisappear(_ animated: Bool) {

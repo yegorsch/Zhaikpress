@@ -21,6 +21,7 @@
 		74959E601F7E2EB700F11039 /* MediaViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74959E5F1F7E2EB700F11039 /* MediaViewCell.xib */; };
 		74980AFF1FEA278600E607C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 74980AFE1FEA278600E607C1 /* README.md */; };
 		74B407A61F811E67003B9857 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B407A51F811E67003B9857 /* NewsDetailViewController.swift */; };
+		74C1417E2019AE0F0001104D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C1417D2019AE0F0001104D /* Result.swift */; };
 		74D1DCAC1F7D78B90096D518 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D1DCAB1F7D78B90096D518 /* AppDelegate.swift */; };
 		74D1DCAE1F7D78B90096D518 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D1DCAD1F7D78B90096D518 /* ViewController.swift */; };
 		74D1DCB31F7D78B90096D518 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74D1DCB21F7D78B90096D518 /* Assets.xcassets */; };
@@ -69,6 +70,7 @@
 		74959E5F1F7E2EB700F11039 /* MediaViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaViewCell.xib; sourceTree = "<group>"; };
 		74980AFE1FEA278600E607C1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		74B407A51F811E67003B9857 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
+		74C1417D2019AE0F0001104D /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		74D1DCA81F7D78B90096D518 /* Zhaikpress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zhaikpress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74D1DCAB1F7D78B90096D518 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74D1DCAD1F7D78B90096D518 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,16 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
+		74C1417C2019AE000001104D /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				74F443611F7E4A5D00406E1E /* NetworkManager.swift */,
+				741E28931F813B3400E51421 /* Parametizer.swift */,
+				74C1417D2019AE0F0001104D /* Result.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		74D1DC9F1F7D78B90096D518 = {
 			isa = PBXGroup;
 			children = (
@@ -227,8 +239,7 @@
 				74F443701F7E4C5C00406E1E /* UIApplication+Additions.swift */,
 				74F443711F7E4C5D00406E1E /* ViewControllera+Additions.swift */,
 				744BA7901FA0FCB30097F8E2 /* EmptyTableViewHandler.swift */,
-				74F443611F7E4A5D00406E1E /* NetworkManager.swift */,
-				741E28931F813B3400E51421 /* Parametizer.swift */,
+				74C1417C2019AE000001104D /* Networking */,
 				74E7A14C1F91195500330712 /* String+Additions.swift */,
 				7427079A1F8401C100A2C3FE /* SharingManager.swift */,
 			);
@@ -462,6 +473,7 @@
 				744BA7931FA101CD0097F8E2 /* EmptyTableView.swift in Sources */,
 				7427079B1F8401C100A2C3FE /* SharingManager.swift in Sources */,
 				74B407A61F811E67003B9857 /* NewsDetailViewController.swift in Sources */,
+				74C1417E2019AE0F0001104D /* Result.swift in Sources */,
 				74959E5E1F7E2EA400F11039 /* MediaViewCell.swift in Sources */,
 				744BA7911FA0FCB30097F8E2 /* EmptyTableViewHandler.swift in Sources */,
 				74E7A14B1F91190600330712 /* CommonButton.swift in Sources */,

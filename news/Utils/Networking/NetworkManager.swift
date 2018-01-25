@@ -15,6 +15,8 @@ struct InitialInfo {
   var sourcesInfo: [[String: Any]]!
 }
 
+
+
 class NetworkManager {
 
   static let shared = NetworkManager()

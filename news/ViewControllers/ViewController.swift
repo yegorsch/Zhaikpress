@@ -9,6 +9,43 @@
 import UIKit
 import SDWebImage
 
+protocol StoryboardInstantiable {
+  associatedtype T
+  static var storyboardName: String { get }
+  static var storyboardBundle: Bundle? { get }
+  static var storyboardIdentifier: String? { get }
+  var model: T! { get set }
+}
+
+extension StoryboardInstantiable where Self: UIViewController {
+  static var storyboardName: String { return "Main" }
+  static var storyboardBundle: Bundle? { return nil }
+  static var storyboardIdentifier: String? { return String(describing: self) }
+  static func instantiate(with data: T) -> Self {
+    let storyboard = UIStoryboard(name: storyboardName, bundle: storyboardBundle)
+
+    if let storyboardIdentifier = storyboardIdentifier {
+      var vc = storyboard.instantiateViewController(withIdentifier: storyboardIdentifier) as! Self
+      vc.model = data
+      return vc
+    } else {
+      return storyboard.instantiateInitialViewController() as! Self
+    }
+  }
+
+  static func instantiate() -> Self {
+    let storyboard = UIStoryboard(name: storyboardName, bundle: storyboardBundle)
+
+    if let storyboardIdentifier = storyboardIdentifier {
+      var vc = storyboard.instantiateViewController(withIdentifier: storyboardIdentifier) as! Self
+      return vc
+    } else {
+      return storyboard.instantiateInitialViewController() as! Self
+    }
+  }
+}
+
+
 class ViewController: UIViewController {
 
   @IBOutlet weak var tableView: UITableView!
@@ -45,8 +82,6 @@ class ViewController: UIViewController {
   let noImageCellNibName = "NoImageTableViewCell"
   let promotionCellNibName = "PromotionTableViewCell"
   let promotionCellIdentifier = "promotionCell"
-  let newsDetailSegueIdentifier = "showNewsDetail"
-  let settingsSegueIdentifier = "showSettings"
 
   var news: [News] = [] {
     didSet {
@@ -104,7 +139,6 @@ class ViewController: UIViewController {
     imageView.image = UIImage(named: "bg_image")
     imageView.contentMode = .top
     self.tableView.backgroundView = imageView
-
     performNetworkLoad()
   }
 
@@ -138,10 +172,13 @@ class ViewController: UIViewController {
   private func loadNews() {
     guard !Parametizer.shared.isQueryEmpty(query: self.query) else {
       AlertManager.showErrorAlert("Вы не подписаны на СМИ", action: {
-        self.performSegue(withIdentifier: self.settingsSegueIdentifier, sender: nil)
+        let settingsVC = SettingsViewController.instantiate()
+        self.navigationController?.pushViewController(settingsVC, animated: true)
+        self.shouldReloadNews = true
       })
       return
     }
+
     NetworkManager.shared.news(with: self.query, successBlock: { news in
       if self.isEmptyViewPresented {
         self.isEmptyViewPresented = false
@@ -225,15 +262,8 @@ extension ViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let newsInstance = self.news[indexPath.row]
     self.shouldReloadNews = false
-    self.performSegue(withIdentifier: self.newsDetailSegueIdentifier, sender: newsInstance)
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let vc = segue.destination as? NewsDetailViewController, let news = sender as? News {
-      vc.news = news
-    } else {
-      self.shouldReloadNews = true
-    }
+    let newsVC = NewsDetailViewController.instantiate(with: newsInstance)
+    self.navigationController?.pushViewController(newsVC, animated: true)
   }
 
 }
