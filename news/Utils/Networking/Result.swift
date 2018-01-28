@@ -18,7 +18,7 @@ struct CoreError: Error {
 
 enum Result<T> {
   case success(T)
-  case failure(Error)
+  case failure(CoreError)
 
   public func dematerialize() throws -> T {
     switch self {

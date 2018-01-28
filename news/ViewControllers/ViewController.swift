@@ -159,20 +159,11 @@ class ViewController: UIViewController {
         self.news = news
         self.removeActivityIndicator()
       case .failure(let error):
-        AlertManager.showErrorAlert(error.localizedDescription, action: nil)
+        AlertManager.showErrorAlert(error.message, action: nil)
         self.removeActivityIndicator()
       }
     }
-//    NetworkManager.shared.news(with: self.query, successBlock: { news in
-//      if self.isEmptyViewPresented {
-//        self.isEmptyViewPresented = false
-//      }
-//      self.news = news
-//      self.removeActivityIndicator()
-//    }, failBlock: { string in
-//      AlertManager.showErrorAlert(string, action: nil)
-//      self.removeActivityIndicator()
-//    })
+
   }
 
   private func loadInitialInfo(done: @escaping (Bool) -> ()) {
@@ -184,22 +175,13 @@ class ViewController: UIViewController {
         Parametizer.shared.mediaRaw = info.sources
         done(true)
       case .failure(let error):
-        AlertManager.showErrorAlert(error.localizedDescription, action: nil)
+        AlertManager.showErrorAlert(error.message, action: nil)
         self.isEmptyViewPresented = true
         done(false)
         self.removeActivityIndicator()
       }
     }
-//    NetworkManager.shared.initialParameter(successBlock: { (info) in
-//      self.info = info
-//      Parametizer.shared.mediaRaw = info.sourcesInfo
-//      done(true)
-//    }) { (fail) in
-//      AlertManager.showErrorAlert(fail, action: nil)
-//      self.isEmptyViewPresented = true
-//      done(false)
-//      self.removeActivityIndicator()
-//    }
+
   }
 
 }
