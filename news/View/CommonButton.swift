@@ -15,6 +15,11 @@ class CommonButton: UIButton {
     commonInit()
   }
 
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    commonInit()
+  }
+
   private func commonInit() {
     self.backgroundColor = Colors.commonButtonColor
     self.setTitleColor(Colors.commonButtonTitleColor, for: .normal)

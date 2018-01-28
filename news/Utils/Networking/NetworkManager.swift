@@ -10,82 +10,87 @@ import Foundation
 import Alamofire
 import SDWebImage
 
-struct InitialInfo {
-  var bannersCount: Int!
-  var sourcesInfo: [[String: Any]]!
+fileprivate enum URLConstants {
+
+  static let ip = "http://178.62.42.207:8080"
+  static let imageBaseURL = "http://178.62.42.207:8080/banner?index="
+  static let newsPath = "/news"
+  static let initPath = "/init"
+
+  static var newsURL: URL? {
+    let urlString = ip + newsPath
+    guard let url = URL(string: urlString)
+      else { return nil }
+    return url
+  }
+
+  static var initURL: URL? {
+    let urlString = ip + initPath
+    guard let url = URL(string: urlString)
+      else { return nil }
+    return url
+  }
+
 }
 
+fileprivate enum ErrorConstants {
+  static let kBadConnectionError = "Ошибка соединения"
+}
 
+struct NewsRetriever: NewsRetrievable {
+  static func news(completionHandler: @escaping FetchNewsEntityGatewayCompletionHandler) {
 
-class NetworkManager {
+    guard let newsURL = URLConstants.newsURL else { return }
 
-  static let shared = NetworkManager()
-
-  private init() { }
-
-  private let ip = "http://178.62.42.207:8080"
-  private let newsPath = "/news"
-  private var newsURL: URLConvertible {
-    let url = ip + newsPath
-    return URL(string: url)!
-  }
-  private let initPath = "/init"
-  private var initURL: URLConvertible {
-    let url = ip + initPath
-    return URL(string: url)!
-  }
-  private let imageBaseURL = "http://178.62.42.207:8080/banner?index="
-
-  typealias SuccessBlock = ([News]) -> ()
-  typealias InitSuccessBlock = (InitialInfo) -> ()
-  typealias ImageSuccessBlock = (UIImage) -> ()
-  typealias FailBlock = (String) -> ()
-
-  func news(with parameter: String, successBlock: @escaping SuccessBlock, failBlock: @escaping FailBlock) {
-    Alamofire.request(newsURL, method: .get, parameters: ["query": parameter]).responseJSON(completionHandler: { response in
-
-      guard let json = response.result.value as? [[String: Any]] else {
-        failBlock("Ошибка соединения")
+    URLSession.shared.dataTask(with: newsURL) { (data, response, err) in
+      guard let data = data else {
+        completionHandler(.failure(CoreError(message: ErrorConstants.kBadConnectionError)))
         return
       }
-      var news = [News]()
-      for dict in json {
-        let newsInstance = News(dictionary: dict)
-        news.append(newsInstance!)
+      do {
+        let decoder = JSONDecoder()
+        let news = try decoder.decode([News].self, from: data)
+        completionHandler(.success(news))
+      } catch {
+        completionHandler(.failure(CoreError(message: ErrorConstants.kBadConnectionError)))
       }
-      successBlock(news)
-    })
+    }.resume()
+
   }
 
-  func initialParameter(successBlock: @escaping InitSuccessBlock, failBlock: @escaping FailBlock) {
-    Alamofire.request(initURL, method: .get).responseJSON(completionHandler: { response in
-      guard let json = response.result.value as? [String: Any] else {
-        failBlock("Ошибка соединения")
+}
+
+struct InitialInfoRetriever: InitialInfoRetrivable {
+
+  static func initialInfo(completionHandler: @escaping FetchInitialEntityGatewayCompletionHandler) {
+
+    guard let initialInfoURL = URLConstants.initURL else { return }
+
+    URLSession.shared.dataTask(with: initialInfoURL) { (data, response, err) in
+      guard let data = data else {
+        completionHandler(.failure(CoreError(message: ErrorConstants.kBadConnectionError)))
         return
       }
-      var info = InitialInfo()
-      guard let bannerCount = json["bannersLength"] as? Int else {
-        failBlock("Ошибка соединения")
-        return
+      do {
+        let decoder = JSONDecoder()
+        let info = try decoder.decode(InitialInfo.self, from: data)
+        completionHandler(.success(info))
+      } catch {
+        completionHandler(.failure(CoreError(message: ErrorConstants.kBadConnectionError)))
       }
-      info.bannersCount = bannerCount
-      guard let sources = json["sources"] as? [[String: Any]] else {
-        failBlock("Ошибка соединения")
-        return
-      }
-      info.sourcesInfo = sources
-      successBlock(info)
-    })
+    }.resume()
+
   }
 
-  func bannerImagesURLs(numberOfImages: Int) -> [URL] {
+  static func bannerImagesURLs(numberOfImages: Int) -> [URL] {
     var imagesURL = [URL]()
     for i in 0..<numberOfImages {
-      let url = URL(string: self.imageBaseURL + i.description)
+      let url = URL(string: URLConstants.imageBaseURL + i.description)
       imagesURL.append(url!)
     }
     return imagesURL
   }
+
 }
 
 

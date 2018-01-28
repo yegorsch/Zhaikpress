@@ -9,12 +9,13 @@
 import UIKit
 
 fileprivate enum Constants {
-static let kShareTitle = "Поделиться"
+  static let kShareTitle = "Поделиться"
 }
 
 class NewsDetailViewController: UIViewController, StoryboardInstantiable {
-  internal var model: News! {
-    didSet{
+  
+  internal var model: News? {
+    didSet {
       self.news = model
     }
   }
@@ -33,8 +34,14 @@ class NewsDetailViewController: UIViewController, StoryboardInstantiable {
   @IBOutlet weak var separatorView: UIView!
   @IBOutlet weak var infoStackView: UIStackView!
 
+
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupTexts()
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: kShareTitle, style: .plain, target: self, action: #selector(shareButtonPressed(sender:)))
+  }
+
+  fileprivate func setupTexts() {
     self.titleLabel.sizeToFit()
     self.textLabel.sizeToFit()
     self.titleLabel.text = news.title
@@ -46,7 +53,6 @@ class NewsDetailViewController: UIViewController, StoryboardInstantiable {
     } else {
       self.imageView.removeFromSuperview()
     }
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: kShareTitle, style: .plain, target: self, action: #selector(shareButtonPressed(sender:)))
   }
 
   override func viewWillDisappear(_ animated: Bool) {

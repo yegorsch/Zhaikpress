@@ -26,15 +26,17 @@ extension UIViewController {
   }
 
   func removeActivityIndicator() {
-    for view in self.view.subviews {
-      if view.classForCoder == UIActivityIndicatorView.classForCoder() {
-        view.removeFromSuperview()
-        view.superview?.removeFromSuperview()
-      }
-      if view.tag == 1 {
-        view.removeFromSuperview()
+    DispatchQueue.main.async {
+      for view in self.view.subviews {
+        if view.classForCoder == UIActivityIndicatorView.classForCoder() {
+          view.removeFromSuperview()
+          view.superview?.removeFromSuperview()
+        }
+        if view.tag == 1 {
+          view.removeFromSuperview()
+        }
       }
     }
   }
-
+  
 }

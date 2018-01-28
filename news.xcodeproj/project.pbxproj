@@ -31,6 +31,9 @@
 		74E5E7D81F863B2C001296B5 /* MediaInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5E7D71F863B2C001296B5 /* MediaInfoView.swift */; };
 		74E7A14B1F91190600330712 /* CommonButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E7A14A1F91190600330712 /* CommonButton.swift */; };
 		74E7A14D1F91195500330712 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E7A14C1F91195500330712 /* String+Additions.swift */; };
+		74EAE202201C4A150037DFAF /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAE201201C4A150037DFAF /* StoryboardInstantiable.swift */; };
+		74EAE204201C6DBD0037DFAF /* NetworkCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAE203201C6DBD0037DFAF /* NetworkCore.swift */; };
+		74EAE206201C72ED0037DFAF /* InitialInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAE205201C72ED0037DFAF /* InitialInfo.swift */; };
 		74F443621F7E4A5D00406E1E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F443611F7E4A5D00406E1E /* NetworkManager.swift */; };
 		74F443651F7E4ADB00406E1E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F443641F7E4ADB00406E1E /* News.swift */; };
 		74F443721F7E4C5D00406E1E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F4436E1F7E4C5C00406E1E /* AlertManager.swift */; };
@@ -87,6 +90,9 @@
 		74E5E7D71F863B2C001296B5 /* MediaInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaInfoView.swift; sourceTree = "<group>"; };
 		74E7A14A1F91190600330712 /* CommonButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonButton.swift; sourceTree = "<group>"; };
 		74E7A14C1F91195500330712 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		74EAE201201C4A150037DFAF /* StoryboardInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardInstantiable.swift; sourceTree = "<group>"; };
+		74EAE203201C6DBD0037DFAF /* NetworkCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCore.swift; sourceTree = "<group>"; };
+		74EAE205201C72ED0037DFAF /* InitialInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialInfo.swift; sourceTree = "<group>"; };
 		74F443611F7E4A5D00406E1E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		74F443641F7E4ADB00406E1E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		74F4436E1F7E4C5C00406E1E /* AlertManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 		743F86491F7E499900247E4C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				74EAE201201C4A150037DFAF /* StoryboardInstantiable.swift */,
 				74D1DCAD1F7D78B90096D518 /* ViewController.swift */,
 				743F86451F7E48F800247E4C /* SettingsViewController.swift */,
 				74B407A51F811E67003B9857 /* NewsDetailViewController.swift */,
@@ -180,6 +187,7 @@
 		74C1417C2019AE000001104D /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				74EAE203201C6DBD0037DFAF /* NetworkCore.swift */,
 				74F443611F7E4A5D00406E1E /* NetworkManager.swift */,
 				741E28931F813B3400E51421 /* Parametizer.swift */,
 				74C1417D2019AE0F0001104D /* Result.swift */,
@@ -250,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				74F443641F7E4ADB00406E1E /* News.swift */,
+				74EAE205201C72ED0037DFAF /* InitialInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -466,12 +475,15 @@
 				74E5E7D81F863B2C001296B5 /* MediaInfoView.swift in Sources */,
 				74F443741F7E4C5D00406E1E /* UIApplication+Additions.swift in Sources */,
 				74F443721F7E4C5D00406E1E /* AlertManager.swift in Sources */,
+				74EAE204201C6DBD0037DFAF /* NetworkCore.swift in Sources */,
 				74F443731F7E4C5D00406E1E /* Colors.swift in Sources */,
 				74F443621F7E4A5D00406E1E /* NetworkManager.swift in Sources */,
+				74EAE206201C72ED0037DFAF /* InitialInfo.swift in Sources */,
 				74D1DCAE1F7D78B90096D518 /* ViewController.swift in Sources */,
 				74F443751F7E4C5D00406E1E /* ViewControllera+Additions.swift in Sources */,
 				744BA7931FA101CD0097F8E2 /* EmptyTableView.swift in Sources */,
 				7427079B1F8401C100A2C3FE /* SharingManager.swift in Sources */,
+				74EAE202201C4A150037DFAF /* StoryboardInstantiable.swift in Sources */,
 				74B407A61F811E67003B9857 /* NewsDetailViewController.swift in Sources */,
 				74C1417E2019AE0F0001104D /* Result.swift in Sources */,
 				74959E5E1F7E2EA400F11039 /* MediaViewCell.swift in Sources */,

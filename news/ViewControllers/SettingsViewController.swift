@@ -19,7 +19,7 @@ fileprivate enum Constants {
 
 class SettingsViewController: UIViewController, StoryboardInstantiable {
   
-  var model: AnyObject!
+  var model: AnyObject?
   typealias T = AnyObject
 
 

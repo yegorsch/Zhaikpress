@@ -9,40 +9,15 @@
 import UIKit
 import SDWebImage
 
-protocol StoryboardInstantiable {
-  associatedtype T
-  static var storyboardName: String { get }
-  static var storyboardBundle: Bundle? { get }
-  static var storyboardIdentifier: String? { get }
-  var model: T! { get set }
-}
-
-extension StoryboardInstantiable where Self: UIViewController {
-  static var storyboardName: String { return "Main" }
-  static var storyboardBundle: Bundle? { return nil }
-  static var storyboardIdentifier: String? { return String(describing: self) }
-  static func instantiate(with data: T) -> Self {
-    let storyboard = UIStoryboard(name: storyboardName, bundle: storyboardBundle)
-
-    if let storyboardIdentifier = storyboardIdentifier {
-      var vc = storyboard.instantiateViewController(withIdentifier: storyboardIdentifier) as! Self
-      vc.model = data
-      return vc
-    } else {
-      return storyboard.instantiateInitialViewController() as! Self
-    }
-  }
-
-  static func instantiate() -> Self {
-    let storyboard = UIStoryboard(name: storyboardName, bundle: storyboardBundle)
-
-    if let storyboardIdentifier = storyboardIdentifier {
-      var vc = storyboard.instantiateViewController(withIdentifier: storyboardIdentifier) as! Self
-      return vc
-    } else {
-      return storyboard.instantiateInitialViewController() as! Self
-    }
-  }
+fileprivate enum Constants {
+  static let kImageCellIdentifier = "cell"
+  static let kNoImageCellIdentifier = "noImageCell"
+  static let kNoImageCellNibName = "NoImageTableViewCell"
+  static let kPromotionCellNibName = "PromotionTableViewCell"
+  static let kPromotionCellIdentifier = "promotionCell"
+  static let kVcTitle = "Zhaikpress"
+  static let kEmptySelectionAlert = "Вы не подписаны на СМИ"
+  static let kBackgrounImageName = "bg_image"
 }
 
 
@@ -77,12 +52,6 @@ class ViewController: UIViewController {
     return queryExtracted
   }
 
-  let imageCellIdentifier = "cell"
-  let noImageCellIdentifier = "noImageCell"
-  let noImageCellNibName = "NoImageTableViewCell"
-  let promotionCellNibName = "PromotionTableViewCell"
-  let promotionCellIdentifier = "promotionCell"
-
   var news: [News] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -93,15 +62,15 @@ class ViewController: UIViewController {
   }
 
   lazy var bannerImagesURLS = {
-    return NetworkManager.shared.bannerImagesURLs(numberOfImages: self.info.bannersCount)
+    return InitialInfoRetriever.bannerImagesURLs(numberOfImages: self.info.bannersLength)
   }
   var bannerImageIndex = 0
 
   var promotionTableViewCell: PromotionTableViewCell? {
-    guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.promotionCellIdentifier) as? PromotionTableViewCell else {
+    guard let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.kPromotionCellIdentifier) as? PromotionTableViewCell else {
       return nil
     }
-    cell.bannerImageView.sd_setImage(with: bannerImagesURLS()[self.bannerImageIndex % self.info.bannersCount], completed: nil)
+    cell.bannerImageView.sd_setImage(with: bannerImagesURLS()[self.bannerImageIndex % self.info.bannersLength], completed: nil)
     self.bannerImageIndex += 1
     return cell
   }
@@ -124,30 +93,33 @@ class ViewController: UIViewController {
       }
     }
   }
+
   var info: InitialInfo!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.title = "Zhaikpress"
+    self.title = Constants.kVcTitle
     self.tableView.addSubview(self.refreshControl)
     self.tableView.dataSource = self
     self.tableView.delegate = self
-    self.tableView.register(UINib(nibName: self.noImageCellNibName, bundle: nil), forCellReuseIdentifier: self.noImageCellIdentifier)
-    self.tableView.register(UINib(nibName: self.promotionCellNibName, bundle: nil), forCellReuseIdentifier: self.promotionCellIdentifier)
+    self.tableView.register(UINib(nibName: Constants.kNoImageCellNibName, bundle: nil), forCellReuseIdentifier: Constants.kNoImageCellIdentifier)
+    self.tableView.register(UINib(nibName: Constants.kPromotionCellNibName, bundle: nil), forCellReuseIdentifier: Constants.kPromotionCellIdentifier)
     self.emptyView.reloadButton.addTarget(self, action: #selector(self.performNetworkLoad), for: .touchUpInside)
+    setBackgroundImage()
+    performNetworkLoad()
+  }
+
+  fileprivate func setBackgroundImage() {
     let imageView = UIImageView(frame: self.tableView.frame)
-    imageView.image = UIImage(named: "bg_image")
+    imageView.image = UIImage(named: Constants.kBackgrounImageName)
     imageView.contentMode = .top
     self.tableView.backgroundView = imageView
-    performNetworkLoad()
   }
 
   @objc private func performNetworkLoad() {
     loadInitialInfo { (done) in
       if done {
         self.loadNews()
-      } else {
-
       }
     }
   }
@@ -171,38 +143,63 @@ class ViewController: UIViewController {
 
   private func loadNews() {
     guard !Parametizer.shared.isQueryEmpty(query: self.query) else {
-      AlertManager.showErrorAlert("Вы не подписаны на СМИ", action: {
+      AlertManager.showErrorAlert(Constants.kEmptySelectionAlert, action: {
         let settingsVC = SettingsViewController.instantiate()
         self.navigationController?.pushViewController(settingsVC, animated: true)
         self.shouldReloadNews = true
       })
       return
     }
-
-    NetworkManager.shared.news(with: self.query, successBlock: { news in
-      if self.isEmptyViewPresented {
-        self.isEmptyViewPresented = false
+    NewsRetriever.news { (result) in
+      switch result {
+      case .success(let news):
+        if self.isEmptyViewPresented {
+          self.isEmptyViewPresented = false
+        }
+        self.news = news
+        self.removeActivityIndicator()
+      case .failure(let error):
+        AlertManager.showErrorAlert(error.localizedDescription, action: nil)
+        self.removeActivityIndicator()
       }
-      self.news = news
-      self.removeActivityIndicator()
-    }, failBlock: { string in
-      AlertManager.showErrorAlert(string, action: nil)
-      self.removeActivityIndicator()
-    })
+    }
+//    NetworkManager.shared.news(with: self.query, successBlock: { news in
+//      if self.isEmptyViewPresented {
+//        self.isEmptyViewPresented = false
+//      }
+//      self.news = news
+//      self.removeActivityIndicator()
+//    }, failBlock: { string in
+//      AlertManager.showErrorAlert(string, action: nil)
+//      self.removeActivityIndicator()
+//    })
   }
 
   private func loadInitialInfo(done: @escaping (Bool) -> ()) {
     self.presentActivityIndicator()
-    NetworkManager.shared.initialParameter(successBlock: { (info) in
-      self.info = info
-      Parametizer.shared.mediaRaw = info.sourcesInfo
-      done(true)
-    }) { (fail) in
-      AlertManager.showErrorAlert(fail, action: nil)
-      self.isEmptyViewPresented = true
-      done(false)
-      self.removeActivityIndicator()
+    InitialInfoRetriever.initialInfo { (result) in
+      switch result {
+      case .success(let info):
+        self.info = info
+        Parametizer.shared.mediaRaw = info.sources
+        done(true)
+      case .failure(let error):
+        AlertManager.showErrorAlert(error.localizedDescription, action: nil)
+        self.isEmptyViewPresented = true
+        done(false)
+        self.removeActivityIndicator()
+      }
     }
+//    NetworkManager.shared.initialParameter(successBlock: { (info) in
+//      self.info = info
+//      Parametizer.shared.mediaRaw = info.sourcesInfo
+//      done(true)
+//    }) { (fail) in
+//      AlertManager.showErrorAlert(fail, action: nil)
+//      self.isEmptyViewPresented = true
+//      done(false)
+//      self.removeActivityIndicator()
+//    }
   }
 
 }
@@ -220,7 +217,7 @@ extension ViewController: UITableViewDataSource {
     }
     switch newsInstance.hasImage {
     case true:
-      guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.imageCellIdentifier, for: indexPath) as? NewsTableViewCell else {
+      guard let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.kImageCellIdentifier, for: indexPath) as? NewsTableViewCell else {
         return UITableViewCell()
       }
       cell.titleLabel.text = newsInstance.title
@@ -233,7 +230,7 @@ extension ViewController: UITableViewDataSource {
       cell.isUserInteractionEnabled = true
       return cell
     case false:
-      guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.noImageCellIdentifier, for: indexPath) as? NoImageTableViewCell else {
+      guard let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.kNoImageCellIdentifier, for: indexPath) as? NoImageTableViewCell else {
         return UITableViewCell()
       }
       cell.titleLabel.text = newsInstance.title
