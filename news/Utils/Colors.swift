@@ -20,13 +20,10 @@ extension UIColor {
     let scanner = Scanner(string:colorCode)
     var color:UInt32 = 0;
     scanner.scanHexInt32(&color)
-
     let mask = 0x000000FF
     let r = CGFloat(Float(Int(color >> 16) & mask)/255.0)
     let g = CGFloat(Float(Int(color >> 8) & mask)/255.0)
     let b = CGFloat(Float(Int(color) & mask)/255.0)
-
     self.init(red: r, green: g, blue: b, alpha: CGFloat(alpha))
   }
-  
 }

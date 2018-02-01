@@ -49,34 +49,6 @@ class News: Decodable {
     hasImage = true
   }
 
-
-//  convenience init?(dictionary: [String: Any]) {
-//    self.init()
-//    guard let title = dictionary["header"] as? String,
-//      let text = dictionary["text"] as? String,
-//      let intTime = dictionary["date"] as? Int,
-//      let media = dictionary["source"] as? String else {
-//        return nil
-//    }
-//    self.title = title
-//    self.text = text
-//    self.dateText = stringFromSeconds(seconds: intTime)
-//    self.media = media
-//    guard var imageURLRecieved = dictionary["images"] as? String, imageURLRecieved.characters.count > 0 else {
-//      return
-//    }
-//    self.hasImage = true
-//    if imageURLRecieved.characters.contains(",") {
-//      imageURLRecieved = imageURLRecieved.components(separatedBy: ",")[0]
-//    }
-//    guard let url = URL(string: imageURLRecieved) else {
-//      self.hasImage = false
-//      return
-//    }
-//    self.imageURL = url
-//  }
-
-
 }
 
 fileprivate func stringFromSeconds(seconds: Int) -> String? {

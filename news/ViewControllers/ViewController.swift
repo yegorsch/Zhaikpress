@@ -150,7 +150,7 @@ class ViewController: UIViewController {
       })
       return
     }
-    NewsRetriever.news { (result) in
+    NewsRetriever.news { [unowned self] (result) in
       switch result {
       case .success(let news):
         if self.isEmptyViewPresented {
@@ -168,7 +168,7 @@ class ViewController: UIViewController {
 
   private func loadInitialInfo(done: @escaping (Bool) -> ()) {
     self.presentActivityIndicator()
-    InitialInfoRetriever.initialInfo { (result) in
+    InitialInfoRetriever.initialInfo { [unowned self] (result) in
       switch result {
       case .success(let info):
         self.info = info

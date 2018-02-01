@@ -44,5 +44,10 @@ class MediaViewCell: UITableViewCell {
     self.isMediaSelected = sender.isOn
   }
 
+  func setMediaSelected(_ bool: Bool) {
+    self.isMediaSelected = bool
+    self.mediaSwitch.isOn = bool
+  }
+
 
 }

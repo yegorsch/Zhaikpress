@@ -18,7 +18,7 @@ fileprivate enum Constants {
 }
 
 class SettingsViewController: UIViewController, StoryboardInstantiable {
-  
+
   var model: AnyObject?
   typealias T = AnyObject
 
@@ -90,9 +90,9 @@ extension SettingsViewController: UITableViewDataSource {
     }
     cell.mediaNameLabel.text = Parametizer.shared.mediaNames[indexPath.row]
     if Parametizer.shared.isMediaOn(media: Parametizer.shared.mediaNames[indexPath.row]) {
-      cell.mediaSwitch.isOn = true
+      cell.setMediaSelected(true)
     } else {
-      cell.mediaSwitch.isOn = false
+      cell.setMediaSelected(false)
     }
     return cell
   }
