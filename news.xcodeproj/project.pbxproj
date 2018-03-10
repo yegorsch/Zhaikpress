@@ -242,12 +242,12 @@
 		74F443601F7E4A4000406E1E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				74C1417C2019AE000001104D /* Networking */,
 				74F4436E1F7E4C5C00406E1E /* AlertManager.swift */,
 				74F4436F1F7E4C5C00406E1E /* Colors.swift */,
 				74F443701F7E4C5C00406E1E /* UIApplication+Additions.swift */,
 				74F443711F7E4C5D00406E1E /* ViewControllera+Additions.swift */,
 				744BA7901FA0FCB30097F8E2 /* EmptyTableViewHandler.swift */,
-				74C1417C2019AE000001104D /* Networking */,
 				74E7A14C1F91195500330712 /* String+Additions.swift */,
 				7427079A1F8401C100A2C3FE /* SharingManager.swift */,
 			);
